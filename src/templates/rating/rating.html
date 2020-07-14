@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<div class="tasks">
+    <div class="container">
+        <div class="intro">
+            <div style="margin: auto;text-align: center;margin: 20px;"> 
+                <a class="col-3" style="text-decoration: underline; color: #45ffb2; font-style: italic;"
+                href="/rating">#Общий рейтинг</a>
+                {% for classification in user.CLASSIFICATION %}
+                <a class="col-3" style="text-decoration: underline; color: #45ffb2; font-style: italic;"
+                    href="/rating?class={{ classification.0 }}">#{{ classification.1 }}</a>
+                {% endfor %}
+            </div>
+
+            <table class="table table-dark">
+                <thead>
+                    <tr>
+                        <th class="text-center" scope="col">#</th>
+                        <th class="" scope="col">Команда</th>
+                        <th class="text-center" scope="col">Баллы</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for team in teams %}
+                    <tr>
+                        <td class="text-center">{{ forloop.counter }}</td>
+                        <td class="">{{ team.team_name }}</td>
+                        <td class="text-center">{{ team.scores }}</td>
+                    </tr>                  
+                    {% endfor %}
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

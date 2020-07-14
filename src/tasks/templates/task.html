@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="tasks">
+    <div class="container">
+
+        <div class="intro">
+            <h2 class="task_title text-center">{{ task.title }}</h2>
+
+            <div class="task_cost"> {{ task.cost }} </div>
+
+            <p class="task_description">{{ task.description | safe }}</p>
+            <hr>
+            <p class="task_author">{{ task.author }}</p>
+            <hr>
+        </div>
+
+        <div class="new_dark">
+            <div class="intro">
+
+                {% if task.solved or solved%}
+                <h3 style="color: #45ffb2; font-weight: 400; text-align: center;">Таск решен</h3>
+                {% endif %}
+
+                {% if solved is False %}
+                <form method="post" action="{% url 'send_flag' %}">
+                    {% csrf_token %}
+                    <p class="task_author" style="color: red;" >
+                        Не верно!
+                    </p>
+                    <input name='task_id' type="text" value="{{ task.id }}" hidden>
+                    <div class="row">
+                        <div class="col-8 form-group">
+                            <input class="form-control wrong" type="text" name="flag" autofocus="" autocapitalize="none"
+                                autocomplete="flag" style="font-size: 20px;">
+                        </div>
+                        <div class="col-4 form-group">
+                            <button class="btn_primary active btn-block text-center"
+                                style="height: 60px; font-size: 20px;" type="submit">отправить</button>
+                        </div>
+                    </div>
+                </form>
+                {% endif %}
+
+                {% if solved is None  %}
+                <form method="post" action="{% url 'send_flag' %}">
+                    {% csrf_token %}
+                    <input name='task_id' type="text" value="{{ task.id }}" hidden>
+                    <div class="row">
+                        <div class="col-8 form-group">
+                            <input class="form-control" type="text" name="flag" autofocus="" autocapitalize="none"
+                                autocomplete="flag" style="font-size: 20px;">
+                        </div>
+                        <div class="col-4 form-group">
+                            <button class="btn_primary active btn-block text-center"
+                                style="height: 60px; font-size: 20px;" type="submit">отправить</button>
+                        </div>
+                    </div>
+                </form>
+                {% endif %}
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

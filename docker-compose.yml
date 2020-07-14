@@ -1,0 +1,36 @@
+version: '3.7'
+
+services:
+  web:
+    build: ./src
+    container_name: web
+    image: registry.gitlab.com/surctf/surctf:latest
+    volumes:
+      - ./src:/usr/src
+      - static_volume:/usr/src/static
+    networks:
+      - nginx_network
+    restart: always
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+      - static_volume:/usr/src/static
+      - ./certs:/etc/ssl
+    depends_on:
+      - web
+    networks:
+      - nginx_network
+    restart: always
+
+
+networks:
+  nginx_network:
+    driver: bridge
+
+volumes:
+  static_volume:
