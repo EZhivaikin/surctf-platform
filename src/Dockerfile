@@ -15,6 +15,6 @@ RUN pip install -r requirements.txt
 # copy project
 COPY . /usr/src/
 
-ENTRYPOINT python manage.py collectstatic --noinput --clear && python manage.py makemigrations --noinput && python manage.py migrate --noinput && gunicorn SurCTF.wsgi:application --bind 0.0.0.0:8000 --workers=3 --threads=3
+ENTRYPOINT python manage.py collectstatic --noinput --clear && python manage.py migrate --noinput && gunicorn SurCTF.wsgi:application --bind 0.0.0.0:8000 --workers=3 --threads=3
 
 EXPOSE 8000
